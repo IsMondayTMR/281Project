@@ -1,11 +1,21 @@
-import React, {useState} from "react"
-import {Navbar,Nav, Form, FormControl, Button, Modal, Alert} from "react-bootstrap"
+import React, {useState, useContext} from "react"
+import { useHistory } from 'react-router-dom';
+import {Nav, Form, Button, Modal} from "react-bootstrap"
+import * as ROUTES from "../constant/constant"
+import * as Utils from "../utils/functions"
+import {db} from "../constant/constant"
+import {Context} from '../context/userContext'
 
 function SignIn(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const {user, setUser} = useContext(Context)
+
+    const history = useHistory()
     const isInValid = email === '' || password === ''
+
+    
 
     async function handleSignIn(event) {
         event.preventDefault()
@@ -15,19 +25,29 @@ function SignIn(props) {
         }
     
         try{
-            let res = await fetch("", {
+            let res = await fetch(`${db}user/login`, {
                 method: 'post',
                 headers: {
                     'Accept': 'application/json',
                     'Content-Type': 'application/json'
                 },
                 body: JSON.stringify({
-                    email: email,
+                    username: email,
                     password: password
-                    
                 })
             });
-            let result = await res.json();
+            let result = await res.json()
+
+            if(result){
+                if(result && result.data.token ){
+                    localStorage.setItem('token', JSON.stringify(result.data.token));
+                    setUser(JSON.parse(localStorage.getItem('token')));
+       
+                }
+
+            }else if(result && result.success === false){
+                alert(result.msg);
+            }
             
         }catch(e){
             console.log(e);
@@ -46,7 +66,7 @@ function SignIn(props) {
                         
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" onChange={({ target }) => setEmail(target.value)}/>
+                        <Form.Control type="text" placeholder="Enter email" onChange={({ target }) => setEmail(target.value)}/>
                             <Form.Text className="text-muted">
                                 We'll never share your email with anyone else.
                             </Form.Text>
