@@ -16,9 +16,10 @@ function UserContext({children}){
         var decoded = jwt_decode(user);
         var exp = decoded.exp
         if (Date.now() < exp * 1000) {
-            localStorage.removeItem("token")
+            
             return false;
         }
+        localStorage.removeItem("token")
         return true;
     }
     function logout(){
