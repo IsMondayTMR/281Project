@@ -7,16 +7,25 @@ const Context = React.createContext()
 function UserContext({children}){
 
     const history = useHistory()
-    const [user, setUser] = useState(JSON.parse(localStorage.getItem('token')));
+    const [user, setUser] = useState();
+
 
     function isExpired() {
-        if (user === undefined || user === null) {
+    
+        const current = JSON.parse(localStorage.getItem('token'))
+        const sessionUser = JSON.parse(sessionStorage.getItem('token'))
+        if ((current === undefined || current === null) && (sessionUser === undefined || sessionUser === null)) {
             return true;
+        }
+
+        if (sessionUser !== null || sessionUser !== undefined) {
+            setUser(sessionUser)
+            return false
         }
         var decoded = jwt_decode(user);
         var exp = decoded.exp
         if (Date.now() < exp * 1000) {
-            
+            setUser(current)
             return false;
         }
         localStorage.removeItem("token")
@@ -24,6 +33,7 @@ function UserContext({children}){
     }
     function logout(){
         localStorage.removeItem("token")
+        sessionStorage.removeItem("token")
         setUser(null);
         history.push(ROUTES.HOME);
         Utils.refresh()

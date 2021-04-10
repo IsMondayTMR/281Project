@@ -41,10 +41,12 @@ function SignIn(props) {
 
             if(result){
                 if(result && result.data.token && remembeme){
-                    localStorage.setItem('token', JSON.stringify(result.data.token));
-                    setUser(JSON.parse(localStorage.getItem('token')));
-                } else {
-                    setUser(result.data.token);
+                    localStorage.setItem('token', JSON.stringify(result.data.token))
+                    setUser(JSON.parse(localStorage.getItem('token')))
+                } 
+                if (result && result.data.token && !remembeme) {
+                    sessionStorage.setItem('token', JSON.stringify(result.data.token))
+                    setUser(JSON.parse(sessionStorage.getItem('token')));
                 }
                 history.push(ROUTES.USERMAINPAGE)
             }else if(result && result.success === false){
