@@ -10,6 +10,7 @@ function SignIn(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
 
+    const [remembeme, setRememberme] = useState(false)
     const {user, setUser} = useContext(Context)
 
     const history = useHistory()
@@ -39,12 +40,13 @@ function SignIn(props) {
             let result = await res.json()
 
             if(result){
-                if(result && result.data.token ){
+                if(result && result.data.token && remembeme){
                     localStorage.setItem('token', JSON.stringify(result.data.token));
                     setUser(JSON.parse(localStorage.getItem('token')));
-       
+                } else {
+                    setUser(result.data.token);
                 }
-
+                history.push(ROUTES.USERMAINPAGE)
             }else if(result && result.success === false){
                 alert(result.msg);
             }
@@ -53,6 +55,7 @@ function SignIn(props) {
             console.log(e);
         }
     }
+    console.log(remembeme)
     return (
         <>
             <Modal show={props.show} onHide={props.handleClose}>
@@ -66,7 +69,7 @@ function SignIn(props) {
                         
                         <Form.Group controlId="formBasicEmail">
                             <Form.Label>Email address</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" onChange={({ target }) => setEmail(target.value)}/>
+                        <Form.Control type="email" placeholder="Enter email" onChange = {({ target }) => setEmail(target.value)}/>
                             <Form.Text className="text-muted">
                                 We'll never share your email with anyone else.
                             </Form.Text>
@@ -77,7 +80,7 @@ function SignIn(props) {
                             <Form.Control type="password" placeholder="Password" onChange={({ target }) => setPassword(target.value)}/>
                         </Form.Group>
                         <Form.Group controlId="formBasicCheckbox">
-                            <Form.Check type="checkbox" label="Remeber me" />
+                            <Form.Check type="checkbox" label="Remeber me" checked = {remembeme} onChange = {() => setRememberme(!remembeme)}/>
                         </Form.Group>
                         
                     </Modal.Body>

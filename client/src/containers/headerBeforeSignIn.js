@@ -32,9 +32,9 @@ function HeaderBeforeSignIn(props) {
             <Navbar bg="dark" variant="dark" expand = "xl">
                 <Navbar.Brand href="#home" style = {{fontSize : "2rem", fontWeight : "bold"}} >Car Rental</Navbar.Brand>
                 <Nav className="mr-auto">
-                    <Nav.Link href={ROUTES.HOME} >Home</Nav.Link>
-                    <Nav.Link href={ROUTES.SERVICE}>Service</Nav.Link>
-                    <Nav.Link href="#pricing">Pricing</Nav.Link>
+                    <Nav.Link href= {ROUTES.HOME} >Home</Nav.Link>
+                    <Nav.Link href= {ROUTES.SERVICE}>Service</Nav.Link>
+                    <Nav.Link href= "">Price</Nav.Link>
                 </Nav>
             
                 <Button variant="outline-info" onClick={handleShow}>SignIn</Button>
