@@ -14,6 +14,7 @@ function UserContext({children}){
     
         const current = JSON.parse(localStorage.getItem('token'))
         const sessionUser = JSON.parse(sessionStorage.getItem('token'))
+        
         if ((current === undefined || current === null) && (sessionUser === undefined || sessionUser === null)) {
             return true;
         }
@@ -22,8 +23,10 @@ function UserContext({children}){
             setUser(sessionUser)
             return false
         }
+
         var decoded = jwt_decode(user);
         var exp = decoded.exp
+
         if (Date.now() < exp * 1000) {
             setUser(current)
             return false;

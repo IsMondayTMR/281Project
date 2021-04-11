@@ -2,7 +2,6 @@ import React, {useState} from 'react'
 import {Card, Button, Form, Col} from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import img from '../img/touxiang.jpg'
-import styles from '../css/profile.css'
 
 const profileContainer = {
     height : '100%',
@@ -26,8 +25,14 @@ const formContainer = {
 
     boxShadow: "10px 15px 15px #cfcfcf"
 }
+
 function Profile() {
     const [update, setUpdate] = useState(true)
+
+    function updateHelper() {
+        setUpdate(!update)
+    }
+    console.log(update)
     return (
         <div style = {profileContainer}>
             <div style = {cardContainer}>
@@ -99,7 +104,7 @@ function Profile() {
                         </Form.Group>
                     </Form.Row>
 
-                    <Button variant="primary" type="submit" onClick = {() => setUpdate(!update)}>
+                    <Button variant="primary" onClick = {updateHelper}>
                         Update
                     </Button>
                 </Form> 

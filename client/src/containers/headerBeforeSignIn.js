@@ -4,7 +4,8 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import * as ROUTES from "../constant/constant"
 import SignUp from "../components/signup"
 import SignIn from "../components/signin"
-function HeaderBeforeSignIn(props) {
+
+function HeaderBeforeSignIn() {
 
 
     const [show, setShow] = useState(false);
