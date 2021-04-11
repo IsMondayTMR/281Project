@@ -12,7 +12,7 @@ const profileContainer = {
 const cardContainer = {
     width : "30rem",
     margin : "0 auto",
-    boxShadow: "10px 15px 15px  #cfcfcf",
+    boxShadow: "5px 5px 15px 5px  #cfcfcf",
     height : "600px"
 }
 
@@ -23,7 +23,7 @@ const formContainer = {
     height : "650px",
     backgroundColor : "white",
     padding : "2%",
-    boxShadow: "10px 15px 15px #cfcfcf"
+    boxShadow: "5px 5px 15px 5px  #cfcfcf",
 }
 
 const inputBox = {

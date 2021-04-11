@@ -11,7 +11,8 @@ import Simulator from '../pages/simulator'
 import History from '../pages/history'
 import NotAuthorized from '../pages/notAuthorized'
 function Routers() {
-    const { isAuthorized} = useContext(Context)
+    const {isAuthorized} = useContext(Context)
+    console.log(isAuthorized)
     const authorization = isAuthorized ? (
         <>
             <Route exact path = {ROUTES.USERMAINPAGE}><UserMainPage/></Route>
@@ -21,7 +22,9 @@ function Routers() {
             <Route exact path = {ROUTES.SIMULATOR}><Simulator/></Route>
             <Route exact path = {ROUTES.HISTORY}><History/></Route> 
         </>) : ( <NotAuthorized/>) 
+
     const HomePage = isAuthorized ?  (<UserMainPage/>) : (<Home/>) 
+
     return (
         <Switch>
             <Route exact path = {ROUTES.HOME}>{HomePage}</Route>
