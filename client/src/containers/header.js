@@ -4,8 +4,8 @@ import HeaderAfterSignIn from "./headerAfterSignIn"
 import HeaderBeforeSignIn from "./headerBeforeSignIn"
 import {Context} from '../context/userContext'
 function HeaderContainer(props) {
-    const {isExpired, logout} = useContext(Context)
-    const Header = isExpired() ? <HeaderBeforeSignIn/> : <HeaderAfterSignIn  logout = {logout}/>
+    const {isAuthorized, logout} = useContext(Context)
+    const Header = isAuthorized ? <HeaderAfterSignIn  logout = {logout}/> : <HeaderBeforeSignIn/>
     return (
         <>
             {Header}

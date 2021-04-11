@@ -2,7 +2,6 @@ import React, {useState, useContext} from "react"
 import { useHistory } from 'react-router-dom';
 import {Nav, Form, Button, Modal} from "react-bootstrap"
 import * as ROUTES from "../constant/constant"
-import * as Utils from "../utils/functions"
 import {db} from "../constant/constant"
 import {Context} from '../context/userContext'
 
@@ -11,7 +10,7 @@ function SignIn(props) {
     const [password, setPassword] = useState('');
 
     const [remembeme, setRememberme] = useState(false)
-    const {user, setUser} = useContext(Context)
+    const {setUser} = useContext(Context)
 
     const history = useHistory()
     const isInValid = email === '' || password === ''
@@ -57,7 +56,6 @@ function SignIn(props) {
             console.log(e);
         }
     }
-    console.log(remembeme)
     return (
         <>
             <Modal show={props.show} onHide={props.handleClose}>
