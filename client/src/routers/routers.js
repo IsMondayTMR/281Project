@@ -6,7 +6,7 @@ import Home from '../pages/home'
 import Service from '../pages/service'
 import Sigin from '../pages/signin'
 import UserMainPage from '../pages/userMainPage'
-import Settings from '../pages/settings'
+import Profile from '../pages/profile'
 import Simulator from '../pages/simulator'
 import History from '../pages/history'
 function Routers() {
@@ -16,7 +16,9 @@ function Routers() {
             <Route exact path = {ROUTES.SERVICE}><Service/></Route>
             <Route exact path = {ROUTES.SIGNIN}><Sigin/></Route>
             <Route exact path = {ROUTES.USERMAINPAGE}><UserMainPage/></Route>
-            <Route exact path = {ROUTES.SETTINGS}><Settings/></Route>
+            <Route exact path = {ROUTES.PROFILE}><Profile/></Route>
+            <Route exact path = {ROUTES.PREFERENCE}><Profile/></Route>
+            <Route exact path = {ROUTES.BILLING}><Profile/></Route>
             <Route exact path = {ROUTES.SIMULATOR}><Simulator/></Route>
             <Route exact path = {ROUTES.HISTORY}><History/></Route>
         </Switch>

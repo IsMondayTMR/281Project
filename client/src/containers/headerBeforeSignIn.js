@@ -1,5 +1,5 @@
 import React, {useState} from "react"
-import {Navbar,Nav, Button} from "react-bootstrap"
+import {Navbar,Nav, Button, Form, FormControl} from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import * as ROUTES from "../constant/constant"
 import SignUp from "../components/signup"
@@ -36,7 +36,7 @@ function HeaderBeforeSignIn(props) {
                     <Nav.Link href= {ROUTES.SERVICE}>Service</Nav.Link>
                     <Nav.Link href= "">Price</Nav.Link>
                 </Nav>
-            
+        
                 <Button variant="outline-info" onClick={handleShow}>SignIn</Button>
                 
                 <SignIn show = {show} handleClose = {handleClose} handleSignUpShow = {handleSignUpShow}/>
