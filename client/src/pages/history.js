@@ -14,7 +14,7 @@ function History() {
         boxShadow: "5px 5px 15px 5px  #cfcfcf",
     }
 
-    const text = {
+    const title = {
         fontSize : "2.5rem",
         fontWeight : "bold",
 
@@ -23,7 +23,7 @@ function History() {
         <div style = {historyContainer}>
             
             <div style = {HistoryContainer}>
-                <p style = {text}>User History</p>
+                <p style = {title}>User History</p>
                 <Accordion>
                     <Card>
                         <Card.Header>

@@ -10,6 +10,7 @@ import Profile from '../pages/profile'
 import Simulator from '../pages/simulator'
 import History from '../pages/history'
 import NotAuthorized from '../pages/notAuthorized'
+import Preference from '../pages/preference'
 function Routers() {
     const {isAuthorized} = useContext(Context)
     console.log(isAuthorized)
@@ -17,7 +18,7 @@ function Routers() {
         <>
             <Route exact path = {ROUTES.USERMAINPAGE}><UserMainPage/></Route>
             <Route exact path = {ROUTES.PROFILE}><Profile/></Route>
-            <Route exact path = {ROUTES.PREFERENCE}><Profile/></Route>
+            <Route exact path = {ROUTES.PREFERENCE}><Preference/></Route>
             <Route exact path = {ROUTES.BILLING}><Profile/></Route>
             <Route exact path = {ROUTES.SIMULATOR}><Simulator/></Route>
             <Route exact path = {ROUTES.HISTORY}><History/></Route> 
