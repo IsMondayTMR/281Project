@@ -18,12 +18,16 @@ const cardContainer = {
 
 const formContainer = {
     margin : "0 auto",
-    width : "50%",
-    height : "80%",
+    marginLeft : "100px",
+    width : "1000px",
+    height : "650px",
     backgroundColor : "white",
     padding : "2%",
-
     boxShadow: "10px 15px 15px #cfcfcf"
+}
+
+const inputBox = {
+    width : "80%"
 }
 
 function Profile() {
@@ -55,23 +59,23 @@ function Profile() {
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridEmail">
                         <Form.Label>Email</Form.Label>
-                        <Form.Control type="email" placeholder="Enter email" disabled = {update}/>
+                        <Form.Control type="email" placeholder="Enter email" disabled = {update} style = {inputBox}/>
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formGridUsername">
                         <Form.Label>User name</Form.Label>
-                        <Form.Control type="text" placeholder="User name" disabled = {update}/>
+                        <Form.Control type="text" placeholder="User name" disabled = {update} style = {inputBox}/>
                         </Form.Group>
                     </Form.Row>
                     <Form.Row>
                         <Form.Group as={Col} controlId="formGridFirstname">
                         <Form.Label>First name</Form.Label>
-                        <Form.Control type="text" placeholder="First name" disabled = {update}/>
+                        <Form.Control type="text" placeholder="First name" disabled = {update} style = {inputBox}/>
                         </Form.Group>
 
                         <Form.Group as={Col} controlId="formGridLastname">
                         <Form.Label>Last name</Form.Label>
-                        <Form.Control type="password" placeholder="Last name" disabled = {update}/>
+                        <Form.Control type="password" placeholder="Last name" disabled = {update} style = {inputBox}/>
                         </Form.Group>
                     </Form.Row>
                     <Form.Group controlId="formGridAddress1">
@@ -104,7 +108,7 @@ function Profile() {
                         </Form.Group>
                     </Form.Row>
 
-                    <Button variant="primary" onClick = {updateHelper}>
+                    <Button variant="primary" onClick = {updateHelper} style = {{marginTop : "50px"}}>
                         Update
                     </Button>
                 </Form> 
