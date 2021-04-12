@@ -1,10 +1,10 @@
 import React from "react"
-import {Card, Button, Form, Col} from "react-bootstrap"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import priceCard from "../css/priceCard.module.css"
+import styles from "../css/price.module.css"
 const priceContainer = {
     height : '100%',
-    backgroundColor : '#f0f0f0',
+    backgroundImage : 'url("../img//backimag.jpg")',
     display : 'flex',
     color: "#FFF",
     fontSize: "80%",
@@ -25,7 +25,11 @@ function Price() {
     
 
     return (
-        <div style = {priceContainer}>
+        <>
+        <div className = {styles.container}>
+
+        </div>
+          <div style = {priceContainer}>
             <div style = {cardContainer}>
                 <div className = {priceCard.pricingWrapper, priceCard.clearfix}>
                     
@@ -87,6 +91,8 @@ function Price() {
                 </div>
             </div>
         </div>
+        </>
+      
         
     )
 }
