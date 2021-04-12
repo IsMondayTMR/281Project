@@ -11,6 +11,7 @@ import Simulator from '../pages/simulator'
 import History from '../pages/history'
 import NotAuthorized from '../pages/notAuthorized'
 import Preference from '../pages/preference'
+import Price from '../pages/price'
 function Routers() {
     const {isAuthorized} = useContext(Context)
     console.log(isAuthorized)
@@ -30,6 +31,7 @@ function Routers() {
         <Switch>
             <Route exact path = {ROUTES.HOME}>{HomePage}</Route>
             <Route exact path = {ROUTES.SERVICE}><Service/></Route>
+            <Route exact path = {ROUTES.PRICE}><Price/></Route>
             {authorization}
         </Switch>
     )

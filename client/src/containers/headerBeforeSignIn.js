@@ -35,7 +35,7 @@ function HeaderBeforeSignIn() {
                 <Nav className="mr-auto">
                     <Nav.Link href= {ROUTES.HOME} >Home</Nav.Link>
                     <Nav.Link href= {ROUTES.SERVICE}>Service</Nav.Link>
-                    <Nav.Link href= "">Price</Nav.Link>
+                    <Nav.Link href= {ROUTES.PRICE}>Price</Nav.Link>
                 </Nav>
         
                 <Button variant="outline-info" onClick={handleShow}>SignIn</Button>
