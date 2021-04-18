@@ -72,7 +72,7 @@ def create_user():
         return jsonify({'message': 'missing data, must have first name, last name, email, and password'}), 400
 
     password_hash = generate_password_hash(data['password'], method='sha256')
-    user = User.query.filter_by(email=data['email'])
+    user = User.query.filter_by(email=data['email']).first()
     if user:
         return jsonify({'message': 'email has been registered before'}), 409
 
