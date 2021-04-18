@@ -1,6 +1,7 @@
 import React, {useState}from "react"
 import {Nav, Form, Button, Modal} from "react-bootstrap"
 import {db} from '../constant/constant'
+
 function SignUp(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -19,7 +20,7 @@ function SignUp(props) {
         }
 
         try{
-            let res = await fetch(`${db}user/getCaptcha`, {
+            let res = await fetch(`${db}user`, {
     
                 method: 'post',
                 headers: {
@@ -31,13 +32,13 @@ function SignUp(props) {
                     username: username,
                     password: password,
                     email : email,
-                    firstname : firstname,
-                    lastname : lastname
+                    first_name : firstname,
+                    last_name : lastname
                 })
 
             });
             let result = await res.json();
-
+            console.log(result)
             if (result ) {
                 props.signUpToSignIn()
             } else {

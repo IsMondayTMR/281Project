@@ -14,7 +14,7 @@ import Preference from '../pages/preference'
 import Price from '../pages/price'
 function Routers() {
     const {isAuthorized} = useContext(Context)
-    console.log(isAuthorized)
+
     const authorization = isAuthorized ? (
         <>
             <Route exact path = {ROUTES.USERMAINPAGE}><UserMainPage/></Route>

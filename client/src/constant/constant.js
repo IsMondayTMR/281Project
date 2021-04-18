@@ -1,5 +1,5 @@
 //DBURL
-export const db = "http://localhost:8099/"
+export const db = "http://127.0.0.1:5000/"
 
 //ROUTE URL
 export const HOME = '/'

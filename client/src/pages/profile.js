@@ -43,7 +43,6 @@ function Profile() {
     function updateHelper() {
         setUpdate(!update)
     }
-    console.log(update)
     return (
         <div style = {profileContainer}>
             <p style = {title}>User Profile</p>
