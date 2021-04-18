@@ -1,0 +1,13 @@
+.container{
+    margin-top: 20rem;
+    align-items: center;
+    background-color: red;
+}
+.cardContainer{
+    margin : 100px;
+}
+
+.cardImg {
+    height : '28rem';
+    border-radius: 50%;
+}

@@ -1,0 +1,14 @@
+.container {
+    position: fixed;
+    top: 4rem;
+    bottom: -1rem;
+    width: 100vw;
+    background-image: url("../img//backimag.jpg");
+    z-index: -1;
+   filter: blur(5px);
+   transform: scale(1.1); 
+    height : 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
