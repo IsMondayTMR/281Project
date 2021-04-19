@@ -12,6 +12,7 @@ import History from '../pages/history'
 import NotAuthorized from '../pages/notAuthorized'
 import Preference from '../pages/preference'
 import Price from '../pages/price'
+import CardSetting from '../pages/cardSetting'
 function Routers() {
     const {isAuthorized} = useContext(Context)
 
@@ -20,7 +21,7 @@ function Routers() {
             <Route exact path = {ROUTES.USERMAINPAGE}><UserMainPage/></Route>
             <Route exact path = {ROUTES.PROFILE}><Profile/></Route>
             <Route exact path = {ROUTES.PREFERENCE}><Preference/></Route>
-            <Route exact path = {ROUTES.BILLING}><Profile/></Route>
+            <Route exact path = {ROUTES.CARDSETTING}><CardSetting/></Route>
             <Route exact path = {ROUTES.SIMULATOR}><Simulator/></Route>
             <Route exact path = {ROUTES.HISTORY}><History/></Route> 
         </>) : ( <NotAuthorized/>) 

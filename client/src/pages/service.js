@@ -38,7 +38,7 @@ function Service() {
                             </Card.Body>
                 </Card>
                 <div>
-                    <img src = {img}></img>
+                    <img src = {img} alt = "this is a alt"></img>
                 </div>
             </div>
             

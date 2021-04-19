@@ -2,6 +2,7 @@ import React from "react"
 import 'bootstrap/dist/css/bootstrap.min.css';
 import priceCard from "../css/priceCard.module.css"
 import styles from "../css/price.module.css"
+
 const priceContainer = {
     height : '100%',
     backgroundImage : 'url("../img//backimag.jpg")',
@@ -17,8 +18,6 @@ const cardContainer = {
     paddingTop: "5%",
     
 }
-
-
 
 
 function Price() {
@@ -47,7 +46,7 @@ function Price() {
 
                         <div className={priceCard.tableBuy}>
                             <p>$60<sup>/ mes</sup></p>
-                            <a href="#" className={priceCard.pricingAction}>Comprar</a>
+                            <a href="www.google.com" className={priceCard.pricingAction}>Comprar</a>
                         </div>
                     </div>
 
@@ -66,7 +65,7 @@ function Price() {
                 
                         <div className={priceCard.tableBuy}>
                             <p>$100<sup>/ mes</sup></p>
-                            <a href="#" className={priceCard.pricingAction}>Comprar</a>
+                            <a href="www.google.com" className={priceCard.pricingAction}>Comprar</a>
                         </div>
                     </div>
 
@@ -85,7 +84,7 @@ function Price() {
                     
                         <div className={priceCard.tableBuy}>
                             <p>$200<sup>/ mes</sup></p>
-                            <a href="#" className={priceCard.pricingAction}>Comprar</a>
+                            <a href="www.google.com" className={priceCard.pricingAction}>Comprar</a>
                         </div>
                     </div>
                 </div>

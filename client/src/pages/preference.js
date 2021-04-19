@@ -27,9 +27,6 @@ const title = {
     fontWeight : "bold",
     marginBottom : "2rem"
 }
-const contentContainer = {
-    display : 'flex'
-}
 function Preference() {
     const [update, setUpdate] = useState(true)
 

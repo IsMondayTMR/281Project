@@ -4,7 +4,7 @@ import {Nav, Form, Button, Modal} from "react-bootstrap"
 import * as ROUTES from "../constant/constant"
 import {db} from "../constant/constant"
 import {Context} from '../context/userContext'
-import jwt_decode from 'jwt-decode'
+
 function SignIn(props) {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
@@ -39,7 +39,6 @@ function SignIn(props) {
             });
          
             let result = await res.json()
-            var decoded = jwt_decode(result.token)
             if(result){
                 if(result && result.token && remembeme){
                     localStorage.setItem('token', JSON.stringify(result.token))

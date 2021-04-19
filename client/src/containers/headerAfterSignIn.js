@@ -19,7 +19,7 @@ function HeaderAfterSignIn(props) {
                     <Dropdown.Menu>
                         <Dropdown.Item href = {ROUTES.PROFILE}>Profile</Dropdown.Item>
                         <Dropdown.Item href = {ROUTES.PREFERENCE}>Preference</Dropdown.Item>
-                        <Dropdown.Item href = {ROUTES.BILLING}>Billing</Dropdown.Item>
+                        <Dropdown.Item href = {ROUTES.CARDSETTING}>Card setting</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
                     
