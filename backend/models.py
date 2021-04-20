@@ -19,3 +19,30 @@ class Card(db.Model):
     exp = db.Column(db.String(20))
     name = db.Column(db.String(100))
     type = db.Column(db.String(20))
+
+# Maintenance will be updated everytime tx_count (number of trip done by the car is updated)
+# Vehicle will need one maintenance very 50 trip done
+
+
+class Vehicle(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    model = db.Column(db.String(50))
+    color = db.Column(db.String(50))
+    maintenance = db.Column(db.Boolean)
+    accidents = db.Column(db.Integer)
+    tx_count = db.Column(db.Integer)
+
+
+class Transaction(db.Model):
+    tx_id = db.Column(db.Integer, primary_key=True)
+    u_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+    c_num = db.Column(db.String(50))
+    payment_method = db.Column(db.String(20))
+    car_model = db.Column(db.String(50))
+    car_color = db.Column(db.String(50))
+    start_time = db.Column(db.DateTime)
+    end_time = db.Column(db.DateTime)
+    start_location = db.Column(db.String(50))
+    end_location = db.Column(db.String(50))
+    payment = db.Column(db.Integer)
+
