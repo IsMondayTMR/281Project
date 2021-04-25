@@ -13,14 +13,14 @@ const cardContainer = {
     width : "30rem",
     margin : "0 auto",
     boxShadow: "5px 5px 15px 5px  #cfcfcf",
-    height : "600px"
+    height : "500px"
 }
 
 const formContainer = {
     margin : "0 auto",
     marginLeft : "100px",
     width : "1000px",
-    height : "650px",
+    height : "570px",
     backgroundColor : "white",
     padding : "2%",
     boxShadow: "5px 5px 15px 5px  #cfcfcf",
@@ -32,7 +32,7 @@ const inputBox = {
 const title = {
     fontSize : "2.5rem",
     fontWeight : "bold",
-    marginBottom : "2rem"
+    marginBottom : "0.5rem"
 }
 const contentContainer = {
     display : 'flex'
@@ -49,7 +49,7 @@ function Profile() {
             <div style = {contentContainer}>
                 <div style = {cardContainer}>
                     <Card style = {{ width: '30rem', height : "100%"}}>
-                        <Card.Img variant="top" src = {img} style = {{width : '400px', height : '400px', borderRadius : '100%', objectFit : 'cover', margin : '0 auto'}}/>
+                        <Card.Img variant="top" src = {img} style = {{width : '300px', height : '300px', borderRadius : '100%', objectFit : 'cover', margin : '0.5rem auto'}}/>
                         <Card.Body>
                             <Card.Title>Welcome, !!!!</Card.Title>
                             <Card.Text>
@@ -116,7 +116,7 @@ function Profile() {
                             </Form.Group>
                         </Form.Row>
 
-                        <Button variant="primary" onClick = {updateHelper} style = {{marginTop : "50px"}}>
+                        <Button variant="primary" onClick = {updateHelper} style = {{marginTop : "20px"}}>
                             Update
                         </Button>
                     </Form> 
