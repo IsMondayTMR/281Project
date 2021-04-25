@@ -3,7 +3,7 @@ import uuid
 from werkzeug.security import check_password_hash, generate_password_hash
 from backend import app
 from backend import db
-from backend.models import User, Card
+from backend.models import User, Card, Transaction, Vehicle
 import jwt
 from functools import wraps
 import logging
@@ -170,3 +170,92 @@ def get_all_cards(current_user):
         output.append(data)
 
     return jsonify({'cards': output})
+
+
+@app.route('/transaction', methods=['GET'])
+@token_required
+def get_transaction_history(current_user):
+    transactions = Transaction.query.filter_by(u_id=current_user.id)
+
+    output = []
+    for tx in transactions:
+        data = {'payment_method': tx.payment_method, 'card_number': tx.c_num, 'start_time': tx.start_time, 'end_time': tx.end_time, 'start_location': tx.start_location, 'end_location': tx.end_location, 'car_model': tx.car_model, 'car_color': tx.car_color, 'payment': tx.payment}
+        output.append(data)
+    return jsonify({'transaction_history': output})
+
+
+@app.route('/inventory', methods=['GET'])
+@token_required
+def get_all_inventory(current_user):
+    if not current_user.admin:
+        return jsonify({'message': 'only the admin can get inventory'}), 400
+
+    vehicles = Vehicle.query.all()
+
+    output = []
+    for car in vehicles:
+        data = {'id': car.id, 'model': car.model, 'color': car.color, 'maintenance': car.maintenance, 'accidents': car.accidents, 'transactions': car.tx_count}
+        output.append(data)
+    return jsonify({'vehicle list': output})
+
+
+@app.route('/inventory', methods=['POST'])
+@token_required
+def add_inventory(current_user):
+    if not current_user.admin:
+        app.logger.debug(current_user.email)
+        app.logger.debug(current_user.admin)
+        return jsonify({'message': 'only the admin can add inventory'}), 400
+
+    data = request.get_json()
+    if 'model' not in data or 'color' not in data:
+        return jsonify({'message': 'missing data, must have model and color'}), 400
+
+    new_car = Vehicle(model=data['model'], color=data['color'], maintenance=0, accidents=0, tx_count=0)
+    db.session.add(new_car)
+    db.session.commit()
+
+    return jsonify({'message': 'new car added to inventory'}), 200
+
+
+@app.route('/inventory/<car_id>', methods=['DELETE'])
+@token_required
+def delete_inventory(current_user, car_id):
+    if not current_user.admin:
+        return jsonify({'message': 'only the admin can delete inventory'}), 400
+
+    car = Vehicle.query.filter_by(id=car_id).first()
+
+    if not car:
+        return jsonify({'message': 'no car to be deleted'}), 400
+
+    db.session.delete(car)
+    db.session.commit()
+
+    return jsonify({'message': 'vehicle deleted'}), 200
+
+
+@app.route('/inventory/<car_id>', methods=['PUT'])
+@token_required
+def update_inventory(current_user, car_id):
+    if not current_user.admin:
+        return jsonify({'message': 'only the admin can update inventory'}), 400
+
+    car = Vehicle.query.filter_by(id=car_id).first()
+
+    if not car:
+        return jsonify({'message': 'no inventory found'})
+
+    data = request.get_json()
+
+    if data['maintenance'] != 'None':
+        car.maintenance = data['maintenance']
+
+    if data['accidents'] != 'None':
+        car.accidents = data['accidents']
+
+    if data['transactions'] != 'None':
+        car.tx_count = data['transactions']
+    db.session.commit()
+
+    return jsonify({'message': 'inventory info updated'})
