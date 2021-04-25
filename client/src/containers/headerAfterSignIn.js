@@ -19,12 +19,12 @@ function HeaderAfterSignIn(props) {
                     <Dropdown.Menu>
                         <Dropdown.Item href = {ROUTES.PROFILE}>Profile</Dropdown.Item>
                         <Dropdown.Item href = {ROUTES.PREFERENCE}>Preference</Dropdown.Item>
-                        <Dropdown.Item href = {ROUTES.CARDSETTING}>Card setting</Dropdown.Item>
+                        <Dropdown.Item href = {ROUTES.YOURPAYMENTS}>Your Payments</Dropdown.Item>
                     </Dropdown.Menu>
                 </Dropdown>
                     
                     <Nav.Link href = {ROUTES.SIMULATOR}>Simulator</Nav.Link>
-                    <Nav.Link href = {ROUTES.HISTORY}>History</Nav.Link>
+
                 </Nav>
                 <Button variant="outline-info" onClick = {props.logout}>Log Out</Button>
             </Navbar>

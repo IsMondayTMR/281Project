@@ -1,6 +1,6 @@
 import React from 'react'
 import {Accordion, Card, Button} from 'react-bootstrap'
-function History() {
+function Transaction() {
     const historyContainer = {
         height : '100%',
         backgroundColor : '#f0f0f0',
@@ -51,4 +51,4 @@ function History() {
     )
 }
 
-export default History
+export default Transaction

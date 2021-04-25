@@ -8,11 +8,12 @@ import Service from '../pages/service'
 import UserMainPage from '../pages/userMainPage'
 import Profile from '../pages/profile'
 import Simulator from '../pages/simulator'
-import History from '../pages/history'
+
 import NotAuthorized from '../pages/notAuthorized'
 import Preference from '../pages/preference'
 import Price from '../pages/price'
-import CardSetting from '../pages/cardSetting'
+import YourPayments from '../pages/yourPayments'
+
 function Routers() {
     const {isAuthorized} = useContext(Context)
 
@@ -21,9 +22,8 @@ function Routers() {
             <Route exact path = {ROUTES.USERMAINPAGE}><UserMainPage/></Route>
             <Route exact path = {ROUTES.PROFILE}><Profile/></Route>
             <Route exact path = {ROUTES.PREFERENCE}><Preference/></Route>
-            <Route exact path = {ROUTES.CARDSETTING}><CardSetting/></Route>
+            <Route path = {ROUTES.YOURPAYMENTS}><YourPayments/></Route>
             <Route exact path = {ROUTES.SIMULATOR}><Simulator/></Route>
-            <Route exact path = {ROUTES.HISTORY}><History/></Route> 
         </>) : ( <NotAuthorized/>) 
 
     const HomePage = isAuthorized ?  (<UserMainPage/>) : (<Home/>) 

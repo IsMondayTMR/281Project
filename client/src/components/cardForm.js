@@ -18,12 +18,7 @@ import {
 export function CardForm(props) {
   const {user} = useContext(Context)
 
-  const containerDisplay = {
-    display : props.show ?  "block" : "none",
-    position: "fixed",
-    top : "10%",
-    zIndex : "2"
-  }
+
   const onSubmit = async values => {
       try{
         let token = user
@@ -47,8 +42,7 @@ export function CardForm(props) {
     
         let result = await res.json()
       
-        console.log(result)
-        
+        refresh()
     }catch(e){
         console.log(JSON.parse(JSON.stringify(e)));
     }

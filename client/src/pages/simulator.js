@@ -28,7 +28,7 @@ function Simulator() {
             let cardsResult = result.cards
             if (cardsResult.length === 0) {
                 alert("please add an card to use this service")
-                history.push(ROUTES.CARDSETTING)
+                history.push(ROUTES.YOURPAYMENTS)
             }
 
         }catch(e){
