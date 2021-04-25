@@ -16,10 +16,10 @@ function YourPayments() {
     return (
         <div style = {container}>
             <p style = {title}>Your Payments</p>
-            <Navbar >
-                <Nav.Link href = {ROUTES.PAYMENTS_OVERVIEW}>Overview</Nav.Link>
-                <Nav.Link href = {ROUTES.PAYMENTS_WALLET}>Wallet</Nav.Link>
-                <Nav.Link href = {ROUTES.PAYMENTS_TRANSACTION}>Transactions</Nav.Link>
+            <Navbar style = {{ padding : "0"}}>
+                <Nav.Link href = {ROUTES.PAYMENTS_OVERVIEW} style = {{paddingLeft : "0"}}>Overview</Nav.Link>
+                <Nav.Link href = {ROUTES.PAYMENTS_WALLET} >Wallet</Nav.Link>
+                <Nav.Link href = {ROUTES.PAYMENTS_TRANSACTION} >Transactions</Nav.Link>
             </Navbar>
             <PaymentsRouters/>
         </div>
