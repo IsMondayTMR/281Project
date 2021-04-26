@@ -4,9 +4,12 @@ from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 import pymysql
 from . import secrets
+from flask_cors import CORS
+
 
 
 app = Flask(__name__)
+CORS(app)
 conn = "mysql+pymysql://{0}:{1}@{2}/{3}".format(secrets.dbuser, secrets.dbpass, secrets.dbhost, secrets.dbname)
 app.config['SQLALCHEMY_DATABASE_URI'] = conn
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False

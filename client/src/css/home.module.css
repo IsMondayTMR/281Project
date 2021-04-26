@@ -1,0 +1,25 @@
+.container {
+    position: fixed;
+    top: 4rem;
+    bottom: -1rem;
+    width: 100vw;
+    background-image: url("../img//backimag.jpg");
+    z-index: -1;
+   filter: blur(3px);
+   transform: scale(1.1); 
+    height : 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+
+.text {
+    font-family:'Times New Roman', Times, serif;
+    z-index: 1;
+    font-size: 4rem;
+    margin: 0 auto;
+    font-weight: bold;
+    color: #f7f7f7;
+    width: 1474px;
+    margin-top: 300px;
+}
