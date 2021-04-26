@@ -1,2 +1,3 @@
-backend/secrets.py
 .idea/
+backend/env/
+backend/__pycache__/
