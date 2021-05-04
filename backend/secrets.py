@@ -3,3 +3,4 @@ dbuser = 'admin'
 dbpass = 'HKEX9h2Sni5NtQU11dla'
 dbname = 'database1'
 jwtsecret = 'joseph'
+

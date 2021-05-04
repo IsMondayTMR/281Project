@@ -3,8 +3,9 @@ from flask_restful import Resource, Api
 from flask_jwt_extended import JWTManager
 from flask_sqlalchemy import SQLAlchemy
 import pymysql
-import secrets
+from . import secrets
 from flask_cors import CORS
+
 
 
 app = Flask(__name__)

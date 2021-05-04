@@ -9,6 +9,8 @@ from functools import wraps
 import logging
 logging.basicConfig(level=logging.DEBUG)
 
+from backend import test_carla
+
 
 def token_required(f):  # takes in function f, then wraps f, then return f with a new argument 'current_user'
     @wraps(f)
@@ -170,6 +172,20 @@ def get_all_cards(current_user):
         output.append(data)
 
     return jsonify({'cards': output})
+
+
+@app.route('/start', methods=['POST'])
+@token_required
+def start_trip(current_user):
+    model = request.args.get('model')
+    color = request.args.get('color')
+    departure = request.args.get('departure')
+    destination = request.args.get('destination')
+    if not model or not color or not destination or not departure:
+        return jsonify({'message': 'missing data, must have model, color, departure, destination'}), 400
+    test_carla.start_taxi(model, color, departure, destination)
+    # bill current_user
+    return jsonify({'message': 'success'}), 200
 
 
 @app.route('/transaction', methods=['GET'])
