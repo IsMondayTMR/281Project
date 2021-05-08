@@ -4,6 +4,8 @@ import sys
 import time
 import numpy as np
 import cv2
+import pymongo
+import blosc
 
 try:
     sys.path.append(glob.glob('backend/carla-*%d.%d-%s.egg' % (
@@ -13,6 +15,13 @@ try:
 except IndexError:
     pass
 import carla
+
+# mongo db connection
+connection_url = 'mongodb+srv://admin:HKEX9h2Sni5NtQU11dla@cluster0.sa5c7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+m_client = pymongo.MongoClient(connection_url)
+
+carla_db = m_client.get_database('carla_data')
+carla_img = carla_db.carla_image
 
 actor_list = []
 IM_WIDTH = 640
@@ -56,12 +65,31 @@ distances = {
 
 
 def process_img(image):
+    # i = np.array(image.raw_data)
+    # i2 = i.reshape((IM_HEIGHT, IM_WIDTH, 4))
+    # i3 = i2[:, :, :3]
+    # cv2.imshow("", i3)
+    # cv2.waitKey(1)
+    # return i3 / 255.0
+    return
+
+
+def record_img(image):
     i = np.array(image.raw_data)
     i2 = i.reshape((IM_HEIGHT, IM_WIDTH, 4))
-    i3 = i2[:, :, :3]
-    cv2.imshow("", i3)
-    cv2.waitKey(1)
-    return i3 / 255.0
+    img = blosc.pack_array(i2[:, :, :3])
+    img_data = {
+        "v_id": "3",
+        "u_id": "2",
+        "t_id": "1",
+        "frame": image.frame,
+        "timestamp": image.timestamp,
+        "height": image.height,
+        "width": image.width,
+        "img": img
+    }
+    carla_img.insert(img_data)
+    return
 
 
 def start_taxi(model, color, departure, destination):
@@ -90,15 +118,25 @@ def start_taxi(model, color, departure, destination):
         spawn_point = carla.Transform(carla.Location(x=-5, z=2.3))
         sensor = world.spawn_actor(cam_bp, spawn_point, attach_to=vehicle)
         actor_list.append(sensor)
+
+        # sensor used to collect data to database
+        cam_bp_r = blueprint_library.find("sensor.camera.rgb")
+        cam_bp_r.set_attribute("image_size_x", f"{IM_WIDTH}")
+        cam_bp_r.set_attribute("image_size_y", f"{IM_HEIGHT}")
+        cam_bp_r.set_attribute("fov", "110")
+        # capture image every 5 second
+        cam_bp_r.set_attribute("sensor_tick", "8.0")
+        spawn_point_r = carla.Transform(carla.Location(x=2.5, z=0.7))
+        sensor_record = world.spawn_actor(cam_bp_r, spawn_point_r, attach_to=vehicle)
+        actor_list.append(sensor_record)
+        print(len(actor_list))
         sensor.listen(lambda data: process_img(data))
+        # sensor_record.listen(lambda data: record_img(data))
+
         vehicle.set_autopilot(True)
 
         # run for xx distance
         time.sleep(distances[departure][destination])
-
-
-
-
 
     finally:
         for actor in actor_list:
