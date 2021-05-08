@@ -11,7 +11,7 @@ export const carsData = [
 
 export const carIndex = [
     'audi',
-    'bmw'
+    'BMW'
 ]
 
 export const location = ['park', 'city hall', 'gas station', 'neighborhood']
@@ -31,3 +31,5 @@ export const colorData = [
         color : '137,0,0'
     }
 ]
+
+export const colorIndex = ['blue','black','grey','red']

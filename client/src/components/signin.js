@@ -48,7 +48,7 @@ function SignIn(props) {
                     sessionStorage.setItem('token', JSON.stringify(result.token))
                     setUser(JSON.parse(sessionStorage.getItem('token')));
                 }
-                history.push(ROUTES.USERMAINPAGE)
+                history.push(ROUTES.PROFILE)
             }else if(result && result.success === false){
                 alert(result.msg);
             }

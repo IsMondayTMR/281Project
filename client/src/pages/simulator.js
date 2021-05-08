@@ -4,9 +4,10 @@ import {Context} from '../context/userContext'
 import {db} from '../constant/constant'
 import * as ROUTES from '../constant/constant'
 import {Button} from 'react-bootstrap'
-import { carsData, location, colorData } from '../constant/Data'
+import {carsData, location, colorData, carIndex,colorIndex } from '../constant/Data'
 import {FaArrowCircleRight, FaArrowCircleLeft} from 'react-icons/fa'
 import styles from '../css/simulator.module.css'
+import Pay from '../components/pay'
 
 const imageStyle = {
     height : "200px", 
@@ -38,9 +39,14 @@ function Simulator() {
 
     const [start, setStart] = useState(location[0])
     const [end, setEnd] = useState(location[0])
+
+    const [paymentShow, setPaymentShow] = useState(false);
     const [cards, setCards] = useState([])
     const {user} = useContext(Context)
     const history = useHistory()
+    
+    const handleClose = () => setPaymentShow(false)
+    
     useEffect(() => {
         getCards()
     },[])
@@ -62,6 +68,8 @@ function Simulator() {
             if (cardsResult.length === 0) {
                 alert("please add an card to use this service")
                 history.push(ROUTES.YOURPAYMENTS)
+            } else {
+                setCards(result.cards)
             }
 
         }catch(e){
@@ -69,6 +77,39 @@ function Simulator() {
         }
     }
 
+    async function startTrip() {
+        const carModel = carIndex[model]
+        const carColor = colorIndex[color]
+        const departure = start
+        const destination = end
+        window.open("http://localhost:8080")
+        setPaymentShow(true);
+        try{
+            let token = user
+
+            let res = await fetch(`${db}start?model=${carModel}&color=${carColor}&departure=${departure}&destination=${destination}`, {
+                method : "post",
+                headers: {
+                    "Accept": "application/json",
+                    "Content-Type": "application/json",
+                    "x-access-token" : token
+                },
+                body: JSON.stringify({
+                    model : carModel,
+                    color : carColor,
+                    departure : departure,
+                    destination : destination
+                })
+            })
+            
+            let result = await res.json()
+
+            console.log(result)
+            
+        }catch(e){
+            console.log(JSON.parse(JSON.stringify(e)));
+        }
+    }
     const nextCar = () => {
 
         setModel(model === modelCounts - 1 ? 0 : model + 1)
@@ -118,6 +159,8 @@ function Simulator() {
     const endLocations = location.map((location, index) => {
         return <option value = {location} key = {index}> {location} </option>
     })
+
+    
     return (
 
         <div style = {{display : "flex", flexDirection : "column", width : "600px", margin : "1rem auto",  alignItems:"center"}}>
@@ -171,11 +214,11 @@ function Simulator() {
             </section>
             
             <div style = {{margin : "30px"}}>
-                <Button>
+                <Button onClick = {startTrip}>
                     Start
                 </Button>
             </div>
-            
+            <Pay show = {paymentShow} handleClose = {handleClose} cards = {cards}/>
         </div>
     )
 }
