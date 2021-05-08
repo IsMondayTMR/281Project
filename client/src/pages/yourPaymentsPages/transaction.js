@@ -36,7 +36,8 @@ function Transaction() {
     }
     console.log(transactions)
 
-    function transactionCard(transaction) {
+    function transactionCard(transaction, index) {
+
         const cardEnding = transaction.card_number.substr(transaction.card_number.length - 4)
        return (<Card style = {{border : "1px solid #bfbfbf", borderRadius : "3px", marginBottom: "5px"}} key = {Math.random()}>
               <div style = {{ width : "100%", borderRadius : "3px", backgroundColor : "#f2f2f2"}}>
@@ -46,7 +47,7 @@ function Transaction() {
                                                          display : "flex", 
                                                          justifyItems : "center",
                                                          fontSize : "0.8rem",
-                                                         paddingTop : "9px"}} variant = "black" eventKey= "0">
+                                                         paddingTop : "9px"}} variant = "black" eventKey= {index}>
                     <div style = {{width: "100%", display : "flex", justifyContent : "space-between"}}>
                         <div> ending with {cardEnding} on {transaction.end_time}</div> 
                         <div> - {transaction.payment.toLocaleString("en-US", {style: "currency", currency: "USD"})}</div> 
@@ -55,7 +56,7 @@ function Transaction() {
                 
                 </Accordion.Toggle>
                 </div>
-                <Accordion.Collapse eventKey = "0" >
+                <Accordion.Collapse eventKey = {index}>
                 <div style = {{display : "flex", justifyContent : "space-between", margin: "20px 10px"}}>
                     <div style = {{fontSize : "0.9rem"}}> 
                         <div style = {{display : "flex", margin : "10px 0"}}>
@@ -79,7 +80,7 @@ function Transaction() {
     }
 
     if (transactions && transactions.length > 0) {
-        const items = transactions.map(transaction => {return transactionCard(transaction)})
+        const items = transactions.map((transaction, index) => {return transactionCard(transaction, index + 1)})
         return (
             <>
                 
