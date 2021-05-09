@@ -339,10 +339,11 @@ def get_sensor_data(current_user, car_id):
     print("pic_count", mydoc.count())
     for x in range(mydoc.count()):
         #img = blosc.unpack_array(mydoc[x]['img'])
-        encoded_img = encodebytes(mydoc[x]['img']).decode('ascii')  # encode as base64
-        data = {'v_id': mydoc[x]['v_id'], 'frame': mydoc[x]['frame'], 'timestamp': mydoc[x]['timestamp']}
+        img = mydoc[x]['img']
+        data = {'v_id': mydoc[x]['v_id'], 'frame': mydoc[x]['frame'], 'timestamp': mydoc[x]['timestamp'], 'image': f'{img}'}
         output.append(data)
 
+    print("output_count", len(output))
     # close mongo db connection
     m_client.close()
 
