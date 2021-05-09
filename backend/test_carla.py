@@ -74,14 +74,12 @@ def process_img(image):
     return
 
 
-def record_img(image):
+def record_img(v_id, image):
     i = np.array(image.raw_data)
     i2 = i.reshape((IM_HEIGHT, IM_WIDTH, 4))
     img = blosc.pack_array(i2[:, :, :3])
     img_data = {
-        "v_id": "3",
-        "u_id": "2",
-        "t_id": "1",
+        "v_id": f'{v_id}',
         "frame": image.frame,
         "timestamp": image.timestamp,
         "height": image.height,
@@ -92,7 +90,7 @@ def record_img(image):
     return
 
 
-def start_taxi(model, color, departure, destination):
+def start_taxi(v_id, model, color, departure, destination):
     try:
         # create client
         client = carla.Client("localhost", 2000)
@@ -129,9 +127,8 @@ def start_taxi(model, color, departure, destination):
         spawn_point_r = carla.Transform(carla.Location(x=2.5, z=0.7))
         sensor_record = world.spawn_actor(cam_bp_r, spawn_point_r, attach_to=vehicle)
         actor_list.append(sensor_record)
-        print(len(actor_list))
         sensor.listen(lambda data: process_img(data))
-        # sensor_record.listen(lambda data: record_img(data))
+        sensor_record.listen(lambda data: record_img(v_id, data))
 
         vehicle.set_autopilot(True)
 
@@ -139,9 +136,11 @@ def start_taxi(model, color, departure, destination):
         time.sleep(distances[departure][destination])
 
     finally:
-        for actor in actor_list:
-            actor.destroy()
+        # for actor in actor_list:
+        #     actor.destroy()
+        m_client.close()
         print("All cleaned up!")
+        return distances[departure][destination]
 
 
-# start_taxi('BMW', 'red', 'neighborhood', 'park')
+# start_taxi('1', BMW', 'red', 'neighborhood', 'park')

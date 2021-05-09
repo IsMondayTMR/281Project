@@ -10,7 +10,10 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 from backend import test_carla
+import datetime;
 
+import pymongo
+from base64 import encodebytes
 
 def token_required(f):  # takes in function f, then wraps f, then return f with a new argument 'current_user'
     @wraps(f)
@@ -183,9 +186,48 @@ def start_trip(current_user):
     destination = request.args.get('destination')
     if not model or not color or not destination or not departure:
         return jsonify({'message': 'missing data, must have model, color, departure, destination'}), 400
-    test_carla.start_taxi(model, color, departure, destination)
+
+    # get vehicle id
+    vehicle = Vehicle.query.filter((Vehicle.model == model) & (Vehicle.color == color)).first()
+    # add 1 to vehicle transaction count
+    vehicle.tx_count = vehicle.tx_count + 1
+    db.session.commit()
+
+    # start simulation
+    trip_duration = test_carla.start_taxi(vehicle.id, model, color, departure, destination)
+
+    # get finish time & start time
+    end_time = datetime.datetime.now()
+    start_time = end_time - datetime.timedelta(seconds=trip_duration)
+
     # bill current_user
-    return jsonify({'message': 'success'}), 200
+    payment = 0.5 * trip_duration
+
+    return jsonify({'message': 'success',
+                    'start_time': start_time,
+                    'end_time': end_time,
+                    'duration': trip_duration,
+                    'payment': payment})
+
+
+@app.route('/pay', methods=['POST'])
+@token_required
+def create_transaction(current_user):
+    data = request.get_json()
+
+    if 'c_num' not in data or 'payment_method' not in data or 'car_model' not in data or 'car_color' not in data\
+        or 'start_time' not in data or 'end_time' not in data or 'start_location' not in data\
+        or 'end_location' not in data or 'payment' not in data:
+        return jsonify({'message': 'missing data'}), 400
+
+    new_tx = Transaction(u_id=current_user.id, c_num=data['c_num'], payment_method=data['payment_method'],
+                         car_model=data['car_model'], car_color=data['car_color'], start_time=data['start_time'],
+                         end_time=data['end_time'], start_location=data['start_location'], end_location=data['end_location'],
+                         payment=data['payment'])
+    db.session.add(new_tx)
+    db.session.commit()
+
+    return jsonify({'message': 'transaction complete'}), 200
 
 
 @app.route('/transaction', methods=['GET'])
@@ -275,3 +317,33 @@ def update_inventory(current_user, car_id):
     db.session.commit()
 
     return jsonify({'message': 'inventory info updated'})
+
+
+@app.route('/sensordata/<car_id>', methods=['GET'])
+@token_required
+def get_sensor_data(current_user, car_id):
+    if not current_user.admin:
+        return jsonify({'message': 'only the admin can get sensor data'}), 400
+
+    # mongo db connection
+    connection_url = 'mongodb+srv://admin:HKEX9h2Sni5NtQU11dla@cluster0.sa5c7.mongodb.net/myFirstDatabase?retryWrites=true&w=majority'
+    m_client = pymongo.MongoClient(connection_url)
+
+    carla_db = m_client.get_database('carla_data')
+    carla_img = carla_db.carla_image
+
+    myquery = {"v_id": f'{car_id}'}
+    mydoc = carla_img.find(myquery)
+
+    output = []
+    print("pic_count", mydoc.count())
+    for x in range(mydoc.count()):
+        #img = blosc.unpack_array(mydoc[x]['img'])
+        encoded_img = encodebytes(mydoc[x]['img']).decode('ascii')  # encode as base64
+        data = {'v_id': mydoc[x]['v_id'], 'frame': mydoc[x]['frame'], 'timestamp': mydoc[x]['timestamp']}
+        output.append(data)
+
+    # close mongo db connection
+    m_client.close()
+
+    return jsonify({'sensor data list': output})
