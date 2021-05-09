@@ -128,7 +128,7 @@ def start_taxi(v_id, model, color, departure, destination):
         sensor_record = world.spawn_actor(cam_bp_r, spawn_point_r, attach_to=vehicle)
         actor_list.append(sensor_record)
         sensor.listen(lambda data: process_img(data))
-        sensor_record.listen(lambda data: record_img(v_id, data))
+        # sensor_record.listen(lambda data: record_img(v_id, data))
 
         vehicle.set_autopilot(True)
 
