@@ -119,7 +119,7 @@ def login():
 
     if check_password_hash(user.password, auth.password):
         token = jwt.encode({'public_id': user.public_id}, app.config['JWT_SECRET_KEY'])  # default algorithm is HA256
-        return jsonify({'token': token})
+        return jsonify({'token': token, 'admin': user.admin})
 
     return make_response('Could not verify', 401, {'WWW-Authenticate': 'Basic realm="Login required'})
 
