@@ -71,7 +71,7 @@ function Wallet() {
 
         const digits = card.card_number.substr(card.card_number.length - 4)
         return ( 
-            <Card style = {{border : "1px solid #bfbfbf", borderRadius : "3px", marginBottom: "5px"}}>
+            <Card style = {{border : "1px solid #bfbfbf", borderRadius : "3px", marginBottom: "5px"}} key = {Math.random()}>
               <div style = {{ width : "100%", borderRadius : "3px", backgroundColor : "#f2f2f2"}}>
                 <Accordion.Toggle as={Button}  style = {{height : "40px", 
                                                          width : "100%", 

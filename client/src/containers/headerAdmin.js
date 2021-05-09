@@ -12,7 +12,7 @@ function HeaderAfterSignIn(props) {
                 <Navbar.Brand style = {{fontSize : "2rem", fontWeight : "bold"}} >DashBoard</Navbar.Brand>
                 <Nav className="mr-auto">
   
-                    <Nav.Link href = {ROUTES.CAR}>Car</Nav.Link>
+                    <Nav.Link href = {ROUTES.CARS}>Car</Nav.Link>
                     <Nav.Link href = {ROUTES.DATA}>Data</Nav.Link>
                     <Nav.Link href = {ROUTES.MANAGEMENT}>Management</Nav.Link>
                 </Nav>

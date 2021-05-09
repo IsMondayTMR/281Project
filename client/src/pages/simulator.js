@@ -39,6 +39,11 @@ function Simulator() {
 
     const [start, setStart] = useState(location[0])
     const [end, setEnd] = useState(location[0])
+    
+    const [startTime, setStartTime] = useState()
+    const [endTime, setEndTime] = useState()
+    const [amount, setAmount] = useState()
+    const [duration, setDuration] = useState()
 
     const [paymentShow, setPaymentShow] = useState(false);
     const [cards, setCards] = useState([])
@@ -83,7 +88,7 @@ function Simulator() {
         const departure = start
         const destination = end
         window.open("http://localhost:8080")
-        setPaymentShow(true);
+        
         try{
             let token = user
 
@@ -103,13 +108,17 @@ function Simulator() {
             })
             
             let result = await res.json()
-
+            setPaymentShow(true);
             console.log(result)
-            
+            setStartTime(result.start_time)
+            setEndTime(result.end_time)
+            setAmount(result.payment)
+            setDuration(result.duration)
         }catch(e){
             console.log(JSON.parse(JSON.stringify(e)));
         }
     }
+
     const nextCar = () => {
 
         setModel(model === modelCounts - 1 ? 0 : model + 1)
@@ -218,7 +227,17 @@ function Simulator() {
                     Start
                 </Button>
             </div>
-            <Pay show = {paymentShow} handleClose = {handleClose} cards = {cards}/>
+            <Pay show = {paymentShow} 
+                 handleClose = {handleClose} 
+                 cards = {cards} 
+                 startTime = {startTime} 
+                 endTime = {endTime} 
+                 amount = {amount} 
+                 duration = {duration} 
+                 departure = {start} 
+                 destination = {end}
+                 model = {carIndex[model]}
+                 color = {colorIndex[color]}/>
         </div>
     )
 }

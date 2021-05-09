@@ -53,7 +53,15 @@ function SignIn(props) {
                     setUser(JSON.parse(sessionStorage.getItem('token')));
                     setAdmin(JSON.parse(sessionStorage.getItem('admin')))
                 }
-                history.push(ROUTES.PROFILE)
+
+                if (result.admin === true) {
+                    history.push(ROUTES.CARS)
+
+                }
+                else {
+                    history.push(ROUTES.PROFILE)
+                }
+                
             }else if(result && result.success === false){
                 alert(result.msg);
             }
