@@ -1,0 +1,27 @@
+
+.rightArrow {
+    margin-left: 2rem;
+    font-size : 2rem;
+    color: #000;
+    cursor: pointer;
+    user-select: none;
+}
+
+.leftArrow {
+    margin-right: 2rem;
+    font-size : 2rem;
+    color: #000;
+    cursor: pointer;
+    user-select: none;
+}
+
+.slide {
+    opacity: 0;
+    transition-duration: 1s ease;
+}
+
+.active {
+    opacity: 1;
+    transition-duration:  1s;
+    transform: scale(1.08);
+}
