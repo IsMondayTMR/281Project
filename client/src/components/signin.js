@@ -10,7 +10,7 @@ function SignIn(props) {
     const [password, setPassword] = useState('');
 
     const [remembeme, setRememberme] = useState(false)
-    const {setUser} = useContext(Context)
+    const {setUser, setAdmin} = useContext(Context)
 
     const history = useHistory()
     const isInValid = email === '' || password === ''
@@ -39,14 +39,19 @@ function SignIn(props) {
             });
          
             let result = await res.json()
+  
             if(result){
                 if(result && result.token && remembeme){
                     localStorage.setItem('token', JSON.stringify(result.token))
+                    localStorage.setItem('admin', JSON.stringify(result.admin))
                     setUser(JSON.parse(localStorage.getItem('token')))
+                    setAdmin(JSON.parse(localStorage.getItem('admin')))
                 } 
                 if (result && result.token && !remembeme) {
                     sessionStorage.setItem('token', JSON.stringify(result.token))
+                    sessionStorage.setItem('admin', JSON.stringify(result.admin))
                     setUser(JSON.parse(sessionStorage.getItem('token')));
+                    setAdmin(JSON.parse(sessionStorage.getItem('admin')))
                 }
                 history.push(ROUTES.PROFILE)
             }else if(result && result.success === false){

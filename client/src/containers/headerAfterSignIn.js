@@ -23,6 +23,7 @@ function HeaderAfterSignIn(props) {
                     </Dropdown.Menu>
                 </Dropdown>
                     
+                    
                     <Nav.Link href = {ROUTES.SIMULATOR}>Simulator</Nav.Link>
 
                 </Nav>
