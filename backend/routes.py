@@ -10,10 +10,9 @@ import logging
 logging.basicConfig(level=logging.DEBUG)
 
 from backend import test_carla
-import datetime;
-
+import datetime
 import pymongo
-from base64 import encodebytes
+
 
 def token_required(f):  # takes in function f, then wraps f, then return f with a new argument 'current_user'
     @wraps(f)
@@ -337,10 +336,10 @@ def get_sensor_data(current_user, car_id):
     m_client = pymongo.MongoClient(connection_url)
 
     carla_db = m_client.get_database('carla_data')
-    carla_img = carla_db.carla_image
+    carla_lane = carla_db.carla_lane
 
     myquery = {"v_id": f'{car_id}'}
-    mydoc = carla_img.find(myquery)
+    mydoc = carla_lane.find(myquery)
 
     if mydoc.count() == 0:
         return jsonify({'message': 'no sensor data available for this vehicle'})
@@ -348,11 +347,10 @@ def get_sensor_data(current_user, car_id):
     output = []
 
     for x in range(mydoc.count()):
-        img = mydoc[x]['img']
-        data = {'v_id': mydoc[x]['v_id'], 'frame': mydoc[x]['frame'], 'timestamp': mydoc[x]['timestamp'], 'image': f'{img}'}
+        data = {'v_id': mydoc[x]['v_id'], 'frame': mydoc[x]['frame'], 'timestamp': mydoc[x]['timestamp'],
+                'location': mydoc[x]['location'], 'lane': mydoc[x]['lane']}
         output.append(data)
 
-    print("output_count", len(output))
     # close mongo db connection
     m_client.close()
 
