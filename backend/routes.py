@@ -199,6 +199,8 @@ def start_trip(current_user):
     # get finish time & start time
     end_time = datetime.datetime.now()
     start_time = end_time - datetime.timedelta(seconds=trip_duration)
+    end_time = end_time.strftime("%Y-%m-%d %H:%M:%S")
+    start_time = start_time.strftime("%Y-%m-%d %H:%M:%S")
 
     # bill current_user
     payment = 0.5 * trip_duration
