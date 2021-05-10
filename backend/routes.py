@@ -237,6 +237,8 @@ def create_transaction(current_user):
 def get_transaction_history(current_user):
     transactions = Transaction.query.filter_by(u_id=current_user.id)
 
+    if not transactions:
+        jsonify({'message': "the user doesn't have any transaction"}), 400
     output = []
     for tx in transactions:
         data = {'payment_method': tx.payment_method, 'card_number': tx.c_num, 'start_time': tx.start_time, 'end_time': tx.end_time, 'start_location': tx.start_location, 'end_location': tx.end_location, 'car_model': tx.car_model, 'car_color': tx.car_color, 'payment': tx.payment}
@@ -251,6 +253,9 @@ def get_all_inventory(current_user):
         return jsonify({'message': 'only the admin can get inventory'}), 400
 
     vehicles = Vehicle.query.all()
+
+    if not vehicles:
+        jsonify({'message': 'no vehicles'}), 400
 
     output = []
     for car in vehicles:
@@ -337,10 +342,12 @@ def get_sensor_data(current_user, car_id):
     myquery = {"v_id": f'{car_id}'}
     mydoc = carla_img.find(myquery)
 
+    if mydoc.count() == 0:
+        return jsonify({'message': 'no sensor data available for this vehicle'})
+
     output = []
-    print("pic_count", mydoc.count())
+
     for x in range(mydoc.count()):
-        #img = blosc.unpack_array(mydoc[x]['img'])
         img = mydoc[x]['img']
         data = {'v_id': mydoc[x]['v_id'], 'frame': mydoc[x]['frame'], 'timestamp': mydoc[x]['timestamp'], 'image': f'{img}'}
         output.append(data)

@@ -94,7 +94,7 @@ def start_taxi(v_id, model, color, departure, destination):
     try:
         # create client
         client = carla.Client("localhost", 2000)
-        client.set_timeout(5.0)
+        client.set_timeout(10.0)
 
         world = client.get_world()
         map = world.get_map()
@@ -142,5 +142,5 @@ def start_taxi(v_id, model, color, departure, destination):
         print("All cleaned up!")
         return distances[departure][destination]
 
+# start_taxi('1', 'BMW', 'red', 'neighborhood', 'park')
 
-# start_taxi('1', BMW', 'red', 'neighborhood', 'park')
