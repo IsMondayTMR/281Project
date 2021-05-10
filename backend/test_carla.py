@@ -119,7 +119,7 @@ def process_img(image):
 
 def process_data(v_id, data):
     lane = {}
-    print('here')
+    # print('here')
     lane['color'] = lane_color[data.crossed_lane_markings[0].color]
     lane['lane_change'] = lane_change[data.crossed_lane_markings[0].lane_change]
     lane['type'] = lane_type[data.crossed_lane_markings[0].type]
