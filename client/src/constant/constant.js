@@ -1,5 +1,5 @@
 //DBURL
-export const db = "http://127.0.0.1:5000/"
+export const db = "http://ec2-54-183-168-133.us-west-1.compute.amazonaws.com:5000/"
 
 //ROUTE URL
 export const HOME = '/'
