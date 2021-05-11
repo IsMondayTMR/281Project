@@ -21,7 +21,7 @@ connection_url = 'mongodb+srv://admin:HKEX9h2Sni5NtQU11dla@cluster0.sa5c7.mongod
 m_client = pymongo.MongoClient(connection_url)
 
 carla_db = m_client.get_database('carla_data')
-carla_img = carla_db.carla_image
+carla_lane = carla_db.carla_lane
 
 actor_list = []
 IM_WIDTH = 640
@@ -63,6 +63,34 @@ distances = {
     }
 }
 
+lane_color = {
+    carla.libcarla.LaneMarkingColor.White: 'white',
+    carla.libcarla.LaneMarkingColor.Yellow: 'yellow',
+    carla.libcarla.LaneMarkingColor.Blue: 'blue',
+    carla.libcarla.LaneMarkingColor.Green: 'green',
+    carla.libcarla.LaneMarkingColor.Red: 'red'
+}
+
+lane_change = {
+    carla.libcarla.LaneChange.NONE: 'straight',
+    carla.libcarla.LaneChange.Left: 'left',
+    carla.libcarla.LaneChange.Right: 'right',
+    carla.libcarla.LaneChange.Both: 'both'
+}
+
+lane_type = {
+    carla.libcarla.LaneMarkingType.NONE: 'none',
+    carla.libcarla.LaneMarkingType.Other: 'other',
+    carla.libcarla.LaneMarkingType.Broken: 'broken',
+    carla.libcarla.LaneMarkingType.Solid: 'solid',
+    carla.libcarla.LaneMarkingType.SolidSolid: 'solidsolid',
+    carla.libcarla.LaneMarkingType.SolidBroken: 'solidbroken',
+    carla.libcarla.LaneMarkingType.BrokenSolid: 'brokensold',
+    carla.libcarla.LaneMarkingType.BrokenBroken: 'brokenbroken',
+    carla.libcarla.LaneMarkingType.BottsDots: 'bottsdots',
+    carla.libcarla.LaneMarkingType.Grass: 'grass',
+    carla.libcarla.LaneMarkingType.Curb: 'curb'
+}
 
 def process_img(image):
     # i = np.array(image.raw_data)
@@ -74,19 +102,38 @@ def process_img(image):
     return
 
 
-def record_img(v_id, image):
-    i = np.array(image.raw_data)
-    i2 = i.reshape((IM_HEIGHT, IM_WIDTH, 4))
-    img = blosc.pack_array(i2[:, :, :3])
-    img_data = {
+# def record_img(v_id, image):
+#     i = np.array(image.raw_data)
+#     i2 = i.reshape((IM_HEIGHT, IM_WIDTH, 4))
+#     img = blosc.pack_array(i2[:, :, :3])
+#     img_data = {
+#         "v_id": f'{v_id}',
+#         "frame": image.frame,
+#         "timestamp": image.timestamp,
+#         "height": image.height,
+#         "width": image.width,
+#         "img": img
+#     }
+#     carla_img.insert(img_data)
+#     return
+
+def process_data(v_id, data):
+    lane = {}
+    # print('here')
+    lane['color'] = lane_color[data.crossed_lane_markings[0].color]
+    lane['lane_change'] = lane_change[data.crossed_lane_markings[0].lane_change]
+    lane['type'] = lane_type[data.crossed_lane_markings[0].type]
+    lane['width'] = f'{data.crossed_lane_markings[0].width}'
+
+    data = {
         "v_id": f'{v_id}',
-        "frame": image.frame,
-        "timestamp": image.timestamp,
-        "height": image.height,
-        "width": image.width,
-        "img": img
+        "frame": data.frame,
+        "timestamp": data.timestamp,
+        "location": f'{data.transform.location.x,data.transform.location.y,data.transform.location.z}',
+        "lane": lane
     }
-    carla_img.insert(img_data)
+
+    carla_lane.insert(data)
     return
 
 
@@ -94,7 +141,7 @@ def start_taxi(v_id, model, color, departure, destination):
     try:
         # create client
         client = carla.Client("localhost", 2000)
-        client.set_timeout(5.0)
+        client.set_timeout(10.0)
 
         world = client.get_world()
         map = world.get_map()
@@ -117,19 +164,25 @@ def start_taxi(v_id, model, color, departure, destination):
         sensor = world.spawn_actor(cam_bp, spawn_point, attach_to=vehicle)
         actor_list.append(sensor)
 
-        # sensor used to collect data to database
-        cam_bp_r = blueprint_library.find("sensor.camera.rgb")
-        cam_bp_r.set_attribute("image_size_x", f"{IM_WIDTH}")
-        cam_bp_r.set_attribute("image_size_y", f"{IM_HEIGHT}")
-        cam_bp_r.set_attribute("fov", "110")
-        # capture image every 5 second
-        cam_bp_r.set_attribute("sensor_tick", "8.0")
-        spawn_point_r = carla.Transform(carla.Location(x=2.5, z=0.7))
-        sensor_record = world.spawn_actor(cam_bp_r, spawn_point_r, attach_to=vehicle)
-        actor_list.append(sensor_record)
-        sensor.listen(lambda data: process_img(data))
+        # # sensor used to collect data to database
+        # cam_bp_r = blueprint_library.find("sensor.camera.rgb")
+        # cam_bp_r.set_attribute("image_size_x", f"{IM_WIDTH}")
+        # cam_bp_r.set_attribute("image_size_y", f"{IM_HEIGHT}")
+        # cam_bp_r.set_attribute("fov", "110")
+        # # capture image every 5 second
+        # cam_bp_r.set_attribute("sensor_tick", "8.0")
+        # spawn_point_r = carla.Transform(carla.Location(x=2.5, z=0.7))
+        # sensor_record = world.spawn_actor(cam_bp_r, spawn_point_r, attach_to=vehicle)
+        # actor_list.append(sensor_record)
         # sensor_record.listen(lambda data: record_img(v_id, data))
 
+        # lane envasion sensor
+        lane_dt = blueprint_library.find("sensor.other.lane_invasion")
+        detector = world.spawn_actor(lane_dt, spawn_point, attach_to=vehicle)
+        actor_list.append(detector)
+
+        sensor.listen(lambda data: process_img(data))
+        detector.listen(lambda data: process_data(v_id, data))
         vehicle.set_autopilot(True)
 
         # run for xx distance
@@ -142,5 +195,5 @@ def start_taxi(v_id, model, color, departure, destination):
         print("All cleaned up!")
         return distances[departure][destination]
 
+# start_taxi('1', 'BMW', 'red', 'neighborhood', 'park')
 
-# start_taxi('1', BMW', 'red', 'neighborhood', 'park')
