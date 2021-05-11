@@ -354,4 +354,4 @@ def get_sensor_data(current_user, car_id):
     # close mongo db connection
     m_client.close()
 
-    return jsonify({'sensor data list': output})
+    return jsonify({'sensor_data_list': output})
