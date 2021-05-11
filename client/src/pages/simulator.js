@@ -1,7 +1,7 @@
 import React, {useEffect, useState,useContext}from 'react'
 import {useHistory} from 'react-router-dom'
 import {Context} from '../context/userContext'
-import {db} from '../constant/constant'
+import {db, carlarViz} from '../constant/constant'
 import * as ROUTES from '../constant/constant'
 import {Button} from 'react-bootstrap'
 import {carsData, location, colorData, carIndex,colorIndex } from '../constant/Data'
@@ -87,7 +87,7 @@ function Simulator() {
         const carColor = colorIndex[color]
         const departure = start
         const destination = end
-        window.open("http://localhost:8080")
+        window.open(`${carlarViz}`)
         
         try{
             let token = user

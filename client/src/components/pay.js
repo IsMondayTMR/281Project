@@ -14,8 +14,8 @@ function Pay(props) {
     const IsInValid = csv.length < 3 || csv === ''
     useEffect(() => {
         setSelectedCard(props.cards[0])
-    },[])
-   
+    })
+   console.log(selectedCard)
 
     async function handlePay(event) {
         event.preventDefault()

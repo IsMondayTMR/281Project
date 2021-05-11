@@ -1,8 +1,9 @@
 import React, { useEffect, useState, useContext } from 'react'
-import { useHistory } from 'react-router-dom'
+import { Link, useHistory } from 'react-router-dom'
 import { Context } from '../context/userContext'
 import { db } from '../constant/constant'
-import { Table, Button, Container, Modal, Form, Col, Badge } from "react-bootstrap"
+import { Table, Button, Container, Modal, Form, Col, Badge, Nav } from "react-bootstrap"
+import * as ROUTES from "../constant/constant"
 const Cars = ({ }) => {
     const { user } = useContext(Context)
     const [cars, setCars] = useState([]);
@@ -146,9 +147,16 @@ const Cars = ({ }) => {
                         <td>{car.color}</td>
                         <td>{car.accidents}</td>
                         <td>{car.maintenance === true ? <Badge variant='danger'>YES</Badge> : <Badge variant='primary'>NO</Badge>}</td>
-
-                        <td><Button size='sm' onClick={() => { setShowUpdateCar(true); setSelect({ ...car }); }} className='ml-1' variant="dark">Edit</Button>
+            
+                        <td>
+                            <Button size='sm' onClick={() => { setShowUpdateCar(true); setSelect({ ...car }); }} className='ml-1' variant="dark">Edit</Button>
                             <Button size='sm' onClick={() => { handleDeleteCar(car.id) }} className='ml-1' variant="danger">Delete</Button>
+                   
+                            <Link to = {`${ROUTES.CARS}/${car.id}`}>
+                                <Button size='sm' className='ml-1' variant="success" >View Data</Button>
+                            </Link>
+                           
+                            
                         </td>
 
                     </tr>)

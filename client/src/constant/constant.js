@@ -1,6 +1,10 @@
 //DBURL
-export const db = "http://ec2-54-183-168-133.us-west-1.compute.amazonaws.com:5000/"
-
+export const db = "http://localhost:5000/"
+                 
+// export const db = "http://ec2-54-183-168-133.us-west-1.compute.amazonaws.com:5000/"
+// export const db = "http://ec2-54-183-168-133.us-west-1.compute.amazonaws.com:5000/"
+// export const carlarViz = "http://ec2-54-183-168-133.us-west-1.compute.amazonaws.com:8080"
+export const carlarViz = "http://localhost:8080"
 //ROUTE URL
 export const HOME = '/'
 export const SERVICE = '/service'
