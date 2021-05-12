@@ -43,23 +43,23 @@ spawn_points_dict = {
 distances = {
     'park': {
         'city hall': 60,
-        'gas station': 35,
-        'neighborhood': 20
+        'gas station': 55,
+        'neighborhood': 65
     },
     'city hall': {
-        'park': 30,
-        'gas station': 10,
-        'neighborhood': 20
+        'park': 60,
+        'gas station': 55,
+        'neighborhood': 65
     },
     'neighborhood': {
-        'city hall': 20,
-        'gas station': 10,
-        'park': 20
+        'city hall': 65,
+        'gas station': 50,
+        'park': 65
     },
     'gas station': {
-        'city hall': 10,
-        'park': 35,
-        'neighborhood': 10
+        'city hall': 55,
+        'park': 55,
+        'neighborhood': 50
     }
 }
 
@@ -180,17 +180,21 @@ def start_taxi(v_id, model, color, departure, destination):
         lane_dt = blueprint_library.find("sensor.other.lane_invasion")
         detector = world.spawn_actor(lane_dt, spawn_point, attach_to=vehicle)
         actor_list.append(detector)
-
         sensor.listen(lambda data: process_img(data))
         detector.listen(lambda data: process_data(v_id, data))
         vehicle.set_autopilot(True)
 
         # run for xx distance
         time.sleep(distances[departure][destination])
-
     finally:
+
+        # client.reload_world()
         # for actor in actor_list:
-        #     actor.destroy()
+        #     print(actor)
+        #     print(actor.destroy())
+        # actor_list[1].stop()
+        # actor_list[2].stop()
+        client.apply_batch([carla.command.DestroyActor(x) for x in actor_list])
         m_client.close()
         print("All cleaned up!")
         return distances[departure][destination]
