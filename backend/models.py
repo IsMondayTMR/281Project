@@ -28,6 +28,7 @@ class Vehicle(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     model = db.Column(db.String(50))
     color = db.Column(db.String(50))
+    status = db.Column(db.Boolean)
     maintenance = db.Column(db.Boolean)
     accidents = db.Column(db.Integer)
     tx_count = db.Column(db.Integer)
