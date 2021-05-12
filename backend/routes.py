@@ -189,6 +189,7 @@ def start_trip(current_user):
     # get vehicle id
     vehicle = Vehicle.query.filter((Vehicle.model == model) & (Vehicle.color == color)).first()
     # add 1 to vehicle transaction count
+    vehicle.status = 1
     vehicle.tx_count = vehicle.tx_count + 1
     db.session.commit()
 
@@ -203,6 +204,9 @@ def start_trip(current_user):
 
     # bill current_user
     payment = 0.5 * trip_duration
+
+    vehicle.status = 0
+    db.session.commit()
 
     return jsonify({'message': 'success',
                     'start_time': start_time,
@@ -258,7 +262,8 @@ def get_all_inventory(current_user):
 
     output = []
     for car in vehicles:
-        data = {'id': car.id, 'model': car.model, 'color': car.color, 'maintenance': car.maintenance, 'accidents': car.accidents, 'transactions': car.tx_count}
+        stat = 'In Service' if car.status else 'Not In Service'
+        data = {'id': car.id, 'model': car.model, 'color': car.color, 'status': stat, 'maintenance': car.maintenance, 'accidents': car.accidents, 'transactions': car.tx_count}
         output.append(data)
     return jsonify({'vehicle list': output})
 
@@ -267,15 +272,13 @@ def get_all_inventory(current_user):
 @token_required
 def add_inventory(current_user):
     if not current_user.admin:
-        app.logger.debug(current_user.email)
-        app.logger.debug(current_user.admin)
         return jsonify({'message': 'only the admin can add inventory'}), 400
 
     data = request.get_json()
     if 'model' not in data or 'color' not in data:
         return jsonify({'message': 'missing data, must have model and color'}), 400
 
-    new_car = Vehicle(model=data['model'], color=data['color'], maintenance=0, accidents=0, tx_count=0)
+    new_car = Vehicle(model=data['model'], color=data['color'], status=0,maintenance=0, accidents=0, tx_count=0)
     db.session.add(new_car)
     db.session.commit()
 

@@ -42,7 +42,7 @@ spawn_points_dict = {
 }
 distances = {
     'park': {
-        'city hall': 30,
+        'city hall': 60,
         'gas station': 35,
         'neighborhood': 20
     },
