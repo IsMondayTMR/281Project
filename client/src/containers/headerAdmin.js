@@ -14,7 +14,7 @@ function HeaderAfterSignIn(props) {
   
                     <Nav.Link href = {ROUTES.CARS}>Car</Nav.Link>
                     <Nav.Link href = {ROUTES.DATA}>Data</Nav.Link>
-                    <Nav.Link href = {ROUTES.MANAGEMENT}>Management</Nav.Link>
+                    <Nav.Link onClick ={() => {window.open(ROUTES.carlarViz)}}>Management</Nav.Link>
                 </Nav>
                 <Button variant="outline-info" onClick = {props.logout}>Log Out</Button>
             </Navbar>

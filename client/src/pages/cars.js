@@ -16,9 +16,17 @@ const Cars = ({ }) => {
         color: '',
     });
     useEffect(() => {
-        getCars()
-    }, [])
+        setTimeout(() => {
+            getCars()
+        },1000)
+    })
 
+    if(cars) {
+        cars.map((item, index) => {
+            console.log(index +  " " + item.status)
+        })
+    }
+    
 
     const handleDeleteCar = async (id) => {
         try {
@@ -51,7 +59,6 @@ const Cars = ({ }) => {
             })
 
             let result = await res.json()
-
             setCars(result['vehicle list'])
 
         } catch (e) {
@@ -136,6 +143,7 @@ const Cars = ({ }) => {
                     <th>Color</th>
                     <th>Accidents</th>
                     <th>Maintenance</th>
+                    <th>Status</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -147,12 +155,12 @@ const Cars = ({ }) => {
                         <td>{car.color}</td>
                         <td>{car.accidents}</td>
                         <td>{car.maintenance === true ? <Badge variant='danger'>YES</Badge> : <Badge variant='primary'>NO</Badge>}</td>
-            
+                        <td>{car.status}</td>
                         <td>
                             <Button size='sm' onClick={() => { setShowUpdateCar(true); setSelect({ ...car }); }} className='ml-1' variant="dark">Edit</Button>
                             <Button size='sm' onClick={() => { handleDeleteCar(car.id) }} className='ml-1' variant="danger">Delete</Button>
                    
-                            <Link to = {`${ROUTES.CARS}/${car.id}`}>
+                            <Link to = {`https://www.mongodb.com/cloud/atlas/lp/try2?utm_source=google&utm_campaign=gs_americas_united_states_search_core_brand_atlas_desktop&utm_term=mongodb%20atlas%20login&utm_medium=cpc_paid_search&utm_ad=e&utm_ad_campaign_id=12212624338&gclid=CjwKCAjw-e2EBhAhEiwAJI5jgwHDikdyV82h1iOH6yHtHmqz0UCSBRlg8lhfo0ZGae7wD2pO1jTgwBoCPSMQAvD_BwE`}>
                                 <Button size='sm' className='ml-1' variant="success" >View Data</Button>
                             </Link>
                            
